@@ -1,4 +1,6 @@
-﻿using Mono.Cecil.Cil;
+﻿using System;
+using System.ComponentModel;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 
@@ -15,7 +17,7 @@ namespace HDeMods {
 
 		private static bool _healthHookSet = false;
 		private static bool _healHooksSet = false;
-		internal static void SetHealthHook() {
+		internal static void SetHealthHook()	{
 			if (_healthHookSet) return;
 
 			IL.RoR2.HealthComponent.ServerFixedUpdate += HealthComponent_ServerFixedUpdate;
@@ -30,7 +32,7 @@ namespace HDeMods {
 		}
 		
 		internal static void SetHealHooks() {
-			if (_healthHookSet) return;
+			if (_healHooksSet) return;
 
 			IL.RoR2.HealthComponent.Heal += HealthComponent_Heal;
 			IL.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamageProcess;
