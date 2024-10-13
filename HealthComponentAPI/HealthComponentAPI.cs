@@ -242,10 +242,8 @@ namespace HDeMods {
 				x => x.MatchLdfld<HealthComponent>("barrier"),
 				x => x.MatchLdarg(0),
 				x => x.MatchLdfld<HealthComponent>("body"),
-				x => x.MatchCallvirt<CharacterBody>("get_barrierDecayRate"),
+				x => x.MatchCallvirt<CharacterBody>("get_barrierDecayRate")
 				// Inserting here
-				x => x.MatchLdarg(1),
-				x => x.MatchMul()
 			);
 			c.Index += 5;
 			c.Emit(OpCodes.Ldarg_0);
