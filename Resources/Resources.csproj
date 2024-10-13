@@ -1,4 +1,10 @@
 ﻿<Project>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+      <OutputPath>bin\Debug\</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+      <OutputPath>bin\Release\</OutputPath>
+    </PropertyGroup>
     <ItemGroup>
         <Content Include="..\.gitignore">
             <Link>.gitignore</Link>
