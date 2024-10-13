@@ -1,0 +1,11 @@
+{
+  "author": "HDeDeDe",
+  "name": "HealthComponentAPI",
+  "version_number": "0.1.0",
+  "website_url": "https://github.com/HDeDeDe/HealthComponentAPI",
+  "description": "is api for healthcomponent. designed to be like RecalculateStatsAPI.",
+  "dependencies": [
+    "bbepis-BepInExPack-5.4.2108",
+    "RiskofThunder-HookGenPatcher-1.2.3"
+  ]
+}

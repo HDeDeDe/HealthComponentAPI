@@ -13,5 +13,6 @@
           <Link>README.md</Link>
         </Content>
         <Content Include="icon.png" />
+        <Content Include="manifest.json" />
     </ItemGroup>
 </Project>
