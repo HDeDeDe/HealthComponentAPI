@@ -190,7 +190,6 @@ namespace HDeMods {
 		}
 
 		private static void HalveHealing(ILCursor c) {
-			/*if (!HealStats.enableEclipseHealReduction) return;*/ 
 			c.GotoNext(
 				x => x.MatchCall<Run>("get_instance"),
 				x => x.MatchCallvirt<Run>("get_selectedDifficulty"),
@@ -198,7 +197,10 @@ namespace HDeMods {
 				x => x.MatchLdcI4(7)
 			);
 			c.Index += 2;
-			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<int, int>>(consume => (int)RefVal.e5);
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<int, int>>(consume => {
+				if (!HealStats.enableEclipseHealReduction) return consume;
+				return (int)RefVal.e5;
+			});
 		}
 
 		private static void RecalcTOTALHeal(ILCursor c) {
@@ -212,18 +214,9 @@ namespace HDeMods {
 				x => x.MatchStloc(2)
 			);
 			c.Index += 5;
-#if DEBUG
-			Log.Debug("Emitting Delegate");
-#endif
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((TOTALHeal) => 
 				TOTALHeal * (1f + HealStats.TOTALhealAmountMultAdd) + HealStats.TOTALhealAmountFlatAdd);
-#if DEBUG
-			Log.Debug("Emitting Starg_S");
-#endif
-			c.Emit(OpCodes.Starg_S, 1);
-#if DEBUG
-			Log.Debug("Emitting Ldarg_1");
-#endif
+			c.Emit(OpCodes.Starg, 1);
 			c.Emit(OpCodes.Ldarg_1);
 		}
 
