@@ -139,7 +139,7 @@ namespace HDeMods {
 			c.Emit(OpCodes.Ldarg_0);
 			c.EmitDelegate<Action<HealthComponent>>(GetHealthMod);
 
-			RecalcTOTALRegenAcumulator(c);
+			RecalcTOTALRegenAccumulator(c);
 			RecalcBarrierDecayRate(c);
 			RecalcShieldRechargeRate(c);
 			RecalcAdaptiveArmorDecayRate(c);
@@ -232,6 +232,7 @@ namespace HDeMods {
 				x => x.MatchMul()
 			);
 			c.Index += 5;
+		private static void RecalcTOTALRegenAccumulator(ILCursor c) {
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((regen) => 
 				regen * (1f + HealthStats.TOTALregenMultAdd) + HealthStats.TOTALregenFlatAdd);
 		}
