@@ -64,6 +64,7 @@ namespace HDeMods {
 		
 		public class HealEventArgs : EventArgs {
 			public bool enableEclipseHealReduction = false;
+			public bool eclipseHealReductionIgnoreTeam = false;
 
 			public float damageCoyoteTimerMultAdd = 0f;
 			public float damageCoyoteTimerFlatAdd = 0f;
@@ -194,6 +195,18 @@ namespace HDeMods {
 		}
 
 		private static void HalveHealing(ILCursor c) {
+			if (c.TryGotoNext(
+				    moveType: MoveType.After,
+				    x => x.MatchCallvirt<TeamComponent>("get_teamIndex")
+			    )) {
+				c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<sbyte, sbyte>>(consume => {
+					if (!HealStats.eclipseHealReductionIgnoreTeam) return consume;
+					return (sbyte)RefVal.plr;
+				});
+			} else {
+				Log.Error("Failed to hook teamIndex! Attempting healing hook.");
+			}
+			
 			if (!c.TryGotoNext(
 				    moveType: MoveType.After,
 				    x => x.MatchCallvirt<Run>("get_selectedDifficulty")
