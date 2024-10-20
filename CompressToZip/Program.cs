@@ -1,51 +1,79 @@
-﻿using System;
-using System.IO;
-using System.IO.Compression;
+﻿using System.IO.Compression;
+using System.Diagnostics;
 
+//---------------------------------------------------Program------------------------------------------------------------
 
-string targetFile = "../HealthComponentAPI/bin/" + HDeMods.HealthComponentAPI.PluginName + ".zip";
-
-FileInfo dll;
-FileInfo readme = new FileInfo("../README.md");
-FileInfo icon = new FileInfo("../Resources/icon.png");
-
-string manifestAuthor = HDeMods.HealthComponentAPI.PluginAuthor;
-string manifestName = HDeMods.HealthComponentAPI.PluginName;
-string manifestVersionNumber = HDeMods.HealthComponentAPI.PluginVersion;
-string manifestWebsiteUrl = "https://github.com/HDeDeDe/HealthComponentAPI";
-string manifestDescription = "is api for healthcomponent. designed to be like RecalculateStatsAPI.";
-string manifestDependencies = "[\n" +
-                              "\t\t\"bbepis-BepInExPack-5.4.2108\",\n" + 
-                              "\t\t\"RiskofThunder-HookGenPatcher-1.2.3\"\n" + 
-                              "\t]";
+const string targetFile = "../" + Settings.pluginName + "/bin/" + Settings.pluginName + ".zip";
 
 #if DEBUG
-dll = new FileInfo("../" + HDeMods.HealthComponentAPI.PluginName + "/bin/Debug/netstandard2.1/" + HDeMods.HealthComponentAPI.PluginName + ".dll");
+const string dllPath = "../" + Settings.pluginName + "/bin/Debug/netstandard2.1/";
+const string dllPathWindows = "..\\" + Settings.pluginName + "\\bin\\Debug\\netstandard2.1\\";
 #endif
 
 #if RELEASE
-dll = new FileInfo("../" + HDeMods.HealthComponentAPI.PluginName + "/bin/Release/netstandard2.1/" + HDeMods.HealthComponentAPI.PluginName + ".dll");
+const string dllPath = "../" + Settings.pluginName + "/bin/Release/netstandard2.1/";
+const string dllPathWindows = "..\\" + Settings.pluginName + "\\bin\\Release\\netstandard2.1\\";
 #endif
 
-Console.WriteLine("Creating " + HDeMods.HealthComponentAPI.PluginName + ".Zip");
+if (File.Exists(dllPath + Settings.pluginName + ".dll.prepatch")) File.Delete(dllPath + Settings.pluginName + ".dll.prepatch");
+if (File.Exists(dllPath + Settings.pluginName + ".pdb.prepatch")) File.Delete(dllPath + Settings.pluginName + ".pdb.prepatch");
+
+#pragma warning disable CS0162 // Unreachable code detected
+if (Settings.weave) {
+	Console.WriteLine("Weaving " + Settings.pluginName + ".dll");
+	File.Copy(dllPath + Settings.pluginName + ".dll", dllPath + Settings.pluginName + ".dll.prepatch");
+	File.Copy(dllPath + Settings.pluginName + ".pdb", dllPath + Settings.pluginName + ".pdb.prepatch");
+	Process weaver = new Process();
+	
+	if (Settings.giveMePDBs) weaver.StartInfo.FileName = @".\NetWeaver\Unity.UNetWeaver2.exe";
+	else weaver.StartInfo.FileName = @".\NetWeaver\Unity.UNetWeaver.exe";
+
+	weaver.StartInfo.Arguments = "\"" + Settings.riskOfRain2Install + "UnityEngine.CoreModule.dll\" " +
+	                             "\"" + Settings.riskOfRain2Install + "com.unity.multiplayer-hlapi.Runtime.dll\" " +
+	                             dllPathWindows + " " +
+	                             dllPathWindows + Settings.pluginName + ".dll " +
+	                             // Dependency folders
+	                             "\"" + Settings.riskOfRain2Install + "\" " +
+	                             dllPathWindows + " " +
+	                             "\"" + Environment.GetEnvironmentVariable("HOMEPATH") + "\\.nuget\\packages\\\"";
+	weaver.StartInfo.RedirectStandardOutput = true;
+	weaver.Start();
+	string output;
+	while ((output = weaver.StandardOutput.ReadLine()!) != null) {
+		Console.WriteLine(output);
+	}
+
+	weaver.WaitForExit();
+}
+
+Console.WriteLine("Creating " + Settings.pluginName + ".Zip");
 if (File.Exists(targetFile)) File.Delete(targetFile);
 
 ZipArchive archive = ZipFile.Open(targetFile, ZipArchiveMode.Create);
 
-archive.CreateEntryFromFile(readme.FullName, readme.Name, CompressionLevel.Optimal);
-archive.CreateEntryFromFile(dll.FullName, dll.Name, CompressionLevel.Optimal);
-archive.CreateEntryFromFile(icon.FullName, "icon.png", CompressionLevel.Optimal);
+if (Settings.changelog != "") archive.CreateEntryFromFile(Settings.changelog, "CHANGELOG.md", CompressionLevel.Optimal);
+if (Settings.readme != "") archive.CreateEntryFromFile(Settings.readme, "README.md", CompressionLevel.Optimal);
+archive.CreateEntryFromFile(dllPath + Settings.pluginName + ".dll", Settings.pluginName + ".dll", CompressionLevel.Optimal);
+if (Settings.giveMePDBs)
+	archive.CreateEntryFromFile(dllPath + Settings.pluginName + ".pdb", Settings.pluginName + ".pdb", CompressionLevel.Optimal);
+if (Settings.icon != "") archive.CreateEntryFromFile(Settings.icon, "icon.png", CompressionLevel.Optimal);
+
+foreach (FileInfo file in Settings.extraFiles) {
+	archive.CreateEntryFromFile(file.FullName, file.Name, CompressionLevel.Optimal);
+}
+#pragma warning restore CS0162 // Unreachable code detected
+
 ZipArchiveEntry manifest = archive.CreateEntry("manifest.json", CompressionLevel.Optimal);
 using (StreamWriter writer = new StreamWriter(manifest.Open())) {
 	writer.WriteLine("{");
-	writer.WriteLine("\t\"author\": \"" + manifestAuthor + "\",");
-	writer.WriteLine("\t\"name\": \"" + manifestName + "\",");
-	writer.WriteLine("\t\"version_number\": \"" + manifestVersionNumber + "\",");
-	writer.WriteLine("\t\"website_url\": \"" + manifestWebsiteUrl + "\",");
-	writer.WriteLine("\t\"description\": \"" + manifestDescription + "\",");
-	writer.WriteLine("\t\"dependencies\": " + manifestDependencies);
+	writer.WriteLine("\t\"author\": \"" + Settings.pluginAuthor + "\",");
+	writer.WriteLine("\t\"name\": \"" + Settings.pluginName + "\",");
+	writer.WriteLine("\t\"version_number\": \"" + Settings.pluginVersion + "\",");
+	writer.WriteLine("\t\"website_url\": \"" + Settings.manifestWebsiteUrl + "\",");
+	writer.WriteLine("\t\"description\": \"" + Settings.manifestDescription + "\",");
+	writer.WriteLine("\t\"dependencies\": " + Settings.manifestDependencies);
 	writer.WriteLine("}");
-	
+
 	writer.Close();
 }
 
