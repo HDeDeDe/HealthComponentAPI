@@ -1,16 +1,10 @@
 namespace HDeMods {
 	public class OptionalMods {
 		internal class SandSwept {
-			private static bool? _enabled;
-
-			public static bool enabled {
-				get {
-					if (_enabled == null) {
-						_enabled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamSandswept.Sandswept");
-					}
-					return (bool)_enabled;
-				}
-			}
+			private static bool enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamSandswept.Sandswept");
+		}
+		internal class Hex3 {
+			private static bool enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Hex3.Hex3Mod");
 		}
 	}
 }
