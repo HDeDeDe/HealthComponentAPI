@@ -8,7 +8,7 @@ internal static class Settings {
 		public const string pluginName = HDeMods.HealthComponentAPI.PluginName;
 		public const string pluginAuthor = HDeMods.HealthComponentAPI.PluginAuthor;
 		public const string pluginVersion = HDeMods.HealthComponentAPI.PluginVersion;
-		public const string changelog = "../CHANGELOG.md";
+		public const string changelog = "";
 		public const string readme = "../README.md";
 		public const string icon = "../Resources/icon.png";
 		public const string riskOfRain2Install = @"C:\Program Files (x86)\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\";
