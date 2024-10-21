@@ -12,8 +12,8 @@ namespace HDeMods {
 				Log.Fatal("Failed to hook Coyote Timer!");
 				return;
 			}
-			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((consume) => 
-				RefVal.damageCoyoteTimer * (1f + HealStats.damageCoyoteTimerMultAdd) + HealStats.damageCoyoteTimerFlatAdd);
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((damageCoyoteTimer) => 
+				damageCoyoteTimer * (1f + HealStats.damageCoyoteTimerMultAdd) + HealStats.damageCoyoteTimerFlatAdd);
 		}
 
 		private static void RecalcCritHeal(ILCursor c) {
@@ -29,8 +29,8 @@ namespace HDeMods {
 				return;
 			}
 			c.Index += 4;
-			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((consume) => 
-				RefVal.critHealMultiplier * (1f + HealStats.critHealMultAdd) + HealStats.critHealFlatAdd);
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((critHealMultiplier) => 
+				critHealMultiplier * (1f + HealStats.critHealMultAdd) + HealStats.critHealFlatAdd);
 		}
 
 		private static void HalveHealing(ILCursor c) {
@@ -38,8 +38,8 @@ namespace HDeMods {
 				    moveType: MoveType.After,
 				    x => x.MatchCallvirt<TeamComponent>("get_teamIndex")
 			    )) {
-				c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<sbyte, sbyte>>(consume => {
-					if (!HealStats.eclipseHealReductionIgnoreTeam) return consume;
+				c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<sbyte, sbyte>>(teamIndex => {
+					if (!HealStats.eclipseHealReductionIgnoreTeam) return teamIndex;
 					return (sbyte)RefVal.plr;
 				});
 			} else {
@@ -53,8 +53,8 @@ namespace HDeMods {
 				Log.Fatal("Failed to hook Eclipse 5 healing!");
 				return;
 			}
-			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<int, int>>(consume => {
-				if (!HealStats.enableEclipseHealReduction) return consume;
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<int, int>>(difficulty => {
+				if (!HealStats.enableEclipseHealReduction) return difficulty;
 				return (int)RefVal.e5;
 			});
 		}
@@ -100,8 +100,8 @@ namespace HDeMods {
 				return;
 			}
 			c.Emit(OpCodes.Ldarg_0);
-			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, HealthComponent, float>>((consume, hc) => 
-				hc.body.maxBarrier / (RefVal.barrierDecayRate * (1f + HealthStats.barrierDecayRateMultAdd) + HealthStats.barrierDecayRateFlatAdd));
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, HealthComponent, float>>((barrierDecayRate, hc) => 
+				hc.body.maxBarrier / (barrierDecayRate * (1f + HealthStats.barrierDecayRateMultAdd) + HealthStats.barrierDecayRateFlatAdd));
 		}
 
 		private static void RecalcShieldRechargeRate(ILCursor c) {
@@ -113,8 +113,8 @@ namespace HDeMods {
 				Log.Fatal("Failed to hook Shield Recharge Rate!");
 				return;
 			}
-			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((consume) => 
-				RefVal.shieldRechargeRate * (1 + HealthStats.shieldRechargeRateMultAdd) + HealthStats.shieldRechargeRateFlatAdd);
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((shieldRechargeRate) => 
+				shieldRechargeRate * (1 + HealthStats.shieldRechargeRateMultAdd) + HealthStats.shieldRechargeRateFlatAdd);
 		}
 
 		private static void RecalcAdaptiveArmorDecayRate(ILCursor c) {
@@ -126,8 +126,8 @@ namespace HDeMods {
 				Log.Fatal("Failed to hook Adaptive Armor Decay Rate!");
 				return;
 			}
-			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((consume) => 
-				RefVal.adaptiveArmorDecayRate * (1 + HealthStats.adaptiveArmorDecayRateMultAdd) + HealthStats.adaptiveArmorDecayRateFlatAdd);
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((adaptiveArmorDecayRate) => 
+				adaptiveArmorDecayRate * (1 + HealthStats.adaptiveArmorDecayRateMultAdd) + HealthStats.adaptiveArmorDecayRateFlatAdd);
 		}
 	}
 }
