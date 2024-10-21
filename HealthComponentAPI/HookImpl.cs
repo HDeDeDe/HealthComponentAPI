@@ -100,7 +100,8 @@ namespace HDeMods {
 				return;
 			}
 			c.Emit(OpCodes.Ldarg_0);
-			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, HealthComponent, float>>((consume, hc) => hc.body.maxBarrier / (RefVal.barrierDecayRate * (1f + HealthStats.barrierDecayRateMultAdd) + HealthStats.barrierDecayRateFlatAdd));
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, HealthComponent, float>>((consume, hc) => 
+				hc.body.maxBarrier / (RefVal.barrierDecayRate * (1f + HealthStats.barrierDecayRateMultAdd) + HealthStats.barrierDecayRateFlatAdd));
 		}
 
 		private static void RecalcShieldRechargeRate(ILCursor c) {
