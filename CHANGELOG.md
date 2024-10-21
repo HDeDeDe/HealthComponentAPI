@@ -1,3 +1,5 @@
+### 1.0.0
+- Added ability to ignore Eclipse team restriction
 ### 0.2.0
 - Redid every hook, should not explode anymore.
 - Fixed compatability with Hex3Mod (and hopefully others)
