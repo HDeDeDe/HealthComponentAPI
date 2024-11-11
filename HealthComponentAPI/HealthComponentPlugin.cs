@@ -6,7 +6,9 @@ namespace HDeMods {
 	[BepInPlugin(HealthComponentAPI.PluginGUID, HealthComponentAPI.PluginName, HealthComponentAPI.PluginVersion)]
 	public sealed class HealthComponentAPIPlugin : BaseUnityPlugin {
 #if DEBUG
-        private static bool makeEmImortal;
+#pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
+		private static bool makeEmImortal;
+#pragma warning restore CS0649 // Field is never assigned to, and will always have its default value
 #endif
 		
 		private void Awake() {
