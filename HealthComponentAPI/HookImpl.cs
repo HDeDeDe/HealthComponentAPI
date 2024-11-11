@@ -39,7 +39,7 @@ namespace HDeMods {
 				    x => x.MatchCallvirt<TeamComponent>("get_teamIndex")
 			    )) {
 				c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<sbyte, sbyte>>(teamIndex => {
-					if (!HealStats.eclipseHealReductionIgnoreTeam) return teamIndex;
+					if (!HealStats.enableEclipseHealReduction) return teamIndex;
 					return (sbyte)RefVal.plr;
 				});
 			} else {

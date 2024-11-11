@@ -17,7 +17,6 @@ There are 2 Events you can subscribe to, `HDeMods.HealthComponentAPI.GetHealthSt
 
 `GetHealStats` runs every time HealthComponent.Heal and HealthComponent.TakeDamageProcess are ran and provides the following values to change:
 - Enable Eclipse Heal Reduction: Cuts healing in half as if you were on Eclipse 5 or higher. Does not count the run as Eclipse 5 or higher on its own. Does not apply if the character is not on the player team.
-- Eclipse Heal Reduction Ignore Team: Remove the team restriction from the Eclipse 5 heal reduction.
 - Damage Coyote Timer: The grace period in between damage frames. This is the only value HealthComponent.TakeDamageProcess reads.
 - Crit Heal: Unused in the base game, the multiplier for critical heals.
 - TOTAL Heal Amount: The final healing value after all healing calculations but before it's applied.

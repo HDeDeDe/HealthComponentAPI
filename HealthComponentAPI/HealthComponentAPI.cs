@@ -67,7 +67,6 @@ namespace HDeMods {
 		
 		public class HealEventArgs : EventArgs {
 			public bool enableEclipseHealReduction = false;
-			public bool eclipseHealReductionIgnoreTeam = false;
 
 			public float damageCoyoteTimerMultAdd = 0f;
 			public float damageCoyoteTimerFlatAdd = 0f;
