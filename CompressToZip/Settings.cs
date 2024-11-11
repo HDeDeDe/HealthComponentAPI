@@ -12,6 +12,7 @@ internal static class Settings {
 		public const string readme = "../README.md";
 		public const string icon = "../Resources/icon.png";
 		public const string riskOfRain2Install = @"C:\Program Files (x86)\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\";
+		// ReSharper disable once CollectionNeverUpdated.Global
 		public static readonly ArrayList extraFiles = new ArrayList {
 		};
 		public const string manifestWebsiteUrl = "https://github.com/HDeDeDe/HealthComponentAPI";
