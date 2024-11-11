@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
+using RoR2;
 
 namespace HDeMods {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -12,6 +13,12 @@ namespace HDeMods {
         public const string PluginAuthor = "HDeDeDe";
         public const string PluginName = "HealthComponentAPI";
         public const string PluginVersion = "1.0.0";
+        
+        public delegate void UpdateHealthEventHandler(HealthComponent sender, UpdateHealthEventArgs args);
+        
+        public delegate void HealEventHandler(HealthComponent sender, HealEventArgs args);
+        
+        public delegate void TakeDamageEventHandler(HealthComponent sender, in DamageInfo damageInfo, TakeDamageArgs args);
         
         public class UpdateHealthEventArgs : EventArgs {
             public float finalRegenMultAdd = 0f;

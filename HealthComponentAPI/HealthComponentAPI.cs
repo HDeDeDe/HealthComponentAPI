@@ -60,17 +60,9 @@ namespace HDeMods {
 
 			_takeDamageHooksSet = false;
 		}
-
-		public delegate void UpdateHealthEventHandler(HealthComponent sender, UpdateHealthEventArgs args);
-
+		
 		private static event UpdateHealthEventHandler _getHealthStats;
-		
-		public delegate void HealEventHandler(HealthComponent sender, HealEventArgs args);
-		
 		private static event HealEventHandler _getHealStats;
-		
-		public delegate void TakeDamageEventHandler(HealthComponent sender, in DamageInfo damageInfo, TakeDamageArgs args);
-		
 		private static event TakeDamageEventHandler _getTakeDamageStats;
 
 		private static void GetHealthMod(HealthComponent hc) {
