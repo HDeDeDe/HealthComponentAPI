@@ -17,7 +17,7 @@ internal static class Settings {
 		public const string manifestWebsiteUrl = "https://github.com/HDeDeDe/HealthComponentAPI";
 		public const string manifestDescription = "is api for healthcomponent. designed to be like RecalculateStatsAPI.";
 		public const string manifestDependencies = "[\n" +
-		                                           "\t\t\"bbepis-BepInExPack-5.4.2108\",\n" + 
-		                                           "\t\t\"RiskofThunder-HookGenPatcher-1.2.3\"\n" + 
+		                                           "\t\t\"bbepis-BepInExPack-5.4.2117\",\n" + 
+		                                           "\t\t\"RiskofThunder-HookGenPatcher-1.2.5\"\n" + 
 		                                           "\t]";
 }
