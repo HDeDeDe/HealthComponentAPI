@@ -1,10 +1,19 @@
 using BepInEx;
 using BepInEx.Logging;
+using RoR2;
+
 namespace HDeMods {
 	[BepInPlugin(HealthComponentAPI.PluginGUID, HealthComponentAPI.PluginName, HealthComponentAPI.PluginVersion)]
 	public sealed class HealthComponentAPIPlugin : BaseUnityPlugin {
+#if DEBUG
+        private static bool makeEmImortal;
+#endif
+		
 		private void Awake() {
 			HCAPI.Log.Init(Logger);
+#if DEBUG
+			HealthComponentAPI.GetTakeDamageStats += MakeEveryoneImortalLol;
+#endif
 		}
 
 		private void OnDestroy() {
@@ -12,6 +21,12 @@ namespace HDeMods {
 			HealthComponentAPI.UnsetHealHooks();
 			HealthComponentAPI.UnsetTakeDamageHooks();
 		}
+#if DEBUG
+		private void MakeEveryoneImortalLol(HealthComponent sender, in DamageInfo damageInfo,
+			HealthComponentAPI.TakeDamageArgs args) {
+			if (makeEmImortal) args.rejectDamage = true;
+		}
+#endif
 	}
 
 	namespace HCAPI {
