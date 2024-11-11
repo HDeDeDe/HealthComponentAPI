@@ -68,8 +68,8 @@ namespace HDeMods {
 		}
 		
 		public class UpdateHealthEventArgs : EventArgs {
-			public float TOTALregenMultAdd = 0f;
-			public float TOTALregenFlatAdd = 0f;
+			public float finalRegenMultAdd = 0f;
+			public float finalRegenFlatAdd = 0f;
 
 			public float barrierDecayRateMultAdd = 0f;
 			public float barrierDecayRateFlatAdd = 0f;
@@ -91,8 +91,8 @@ namespace HDeMods {
 			public float critHealMultAdd = 0f;
 			public float critHealFlatAdd = 0f;
 
-			public float TOTALhealAmountMultAdd = 0f;
-			public float TOTALhealAmountFlatAdd = 0f;
+			public float finalHealAmountMultAdd = 0f;
+			public float finalHealAmountFlatAdd = 0f;
 		}
 		
 		public class TakeDamageArgs : EventArgs {

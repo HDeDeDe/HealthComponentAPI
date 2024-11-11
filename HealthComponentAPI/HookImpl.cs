@@ -76,7 +76,7 @@ namespace HDeMods {
 			}
 			c.Index += 5;
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((TOTALHeal) => 
-				TOTALHeal * (1f + HealStats.TOTALhealAmountMultAdd) + HealStats.TOTALhealAmountFlatAdd);
+				TOTALHeal * (1f + HealStats.finalHealAmountMultAdd) + HealStats.finalHealAmountFlatAdd);
 			c.Emit(OpCodes.Starg, 1);
 			c.Emit(OpCodes.Ldarg_1);
 		}
@@ -90,7 +90,7 @@ namespace HDeMods {
 				return;
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((regen) => 
-				regen * (1f + HealthStats.TOTALregenMultAdd) + HealthStats.TOTALregenFlatAdd);
+				regen * (1f + HealthStats.finalRegenMultAdd) + HealthStats.finalRegenFlatAdd);
 		}
 		
 		private static void RecalcBarrierDecayRate(ILCursor c) {

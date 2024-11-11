@@ -8,7 +8,7 @@ is api for healthcomponent. designed to be like RecalculateStatsAPI.
 There are 2 Events you can subscribe to, `HDeMods.HealthComponentAPI.GetHealthStats` and `HDeMods.HealthComponentAPI.GetHealStats`.
 
 `GetHealthStats` fires every fixed update on the server and provides the following values to change:
-- TOTAL Regen: Regen value after all regen related calculations but before it's applied as healing.
+- Final Regen: Regen value after all regen related calculations but before it's applied as healing.
 - Barrier Decay Rate: The amount of time it takes for barrier to decay. This is exposed in CharacterBody.RecalculateStats but RecalculateStatsAPI doesn't provide any bindings for it.
 - Shield Recharge Rate: The amount of time it takes for shields to recharge once you are out of danger.
 - Adaptive Armor Decay Rate: The amount of time it takes for adaptive armor stacks to decay.
@@ -19,7 +19,7 @@ There are 2 Events you can subscribe to, `HDeMods.HealthComponentAPI.GetHealthSt
 - Enable Eclipse Heal Reduction: Cuts healing in half as if you were on Eclipse 5 or higher. Does not count the run as Eclipse 5 or higher on its own. Does not apply if the character is not on the player team.
 - Damage Coyote Timer: The grace period in between damage frames. This is the only value HealthComponent.TakeDamageProcess reads.
 - Crit Heal: Unused in the base game, the multiplier for critical heals.
-- TOTAL Heal Amount: The final healing value after all healing calculations but before it's applied.
+- Final Heal Amount: The final healing value after all healing calculations but before it's applied.
 - Instated like this: `MyDelegate(HealthComponent sender, HealEventArgs args)`
 
 That's it.
