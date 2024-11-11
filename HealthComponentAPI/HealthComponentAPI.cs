@@ -192,7 +192,7 @@ namespace HDeMods {
 			c.Emit(OpCodes.Ldarg_0);
 			c.EmitDelegate<Action<HealthComponent>>(GetHealthMod);
 
-			RecalcTOTALRegenAccumulator(c);
+			RecalcFinalRegenAccumulator(c);
 			RecalcBarrierDecayRate(c);
 			RecalcShieldRechargeRate(c);
 			RecalcAdaptiveArmorDecayRate(c);
@@ -206,7 +206,7 @@ namespace HDeMods {
 			RecalcCoyoteTimer(c);
 			RecalcCritHeal(c);
 			HalveHealing(c);
-			RecalcTOTALHeal(c);
+			RecalcFinalHeal(c);
 		}
 		
 		private static void HealthComponent_TakeDamageProcess_Heal(ILContext il) {

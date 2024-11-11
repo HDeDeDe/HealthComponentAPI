@@ -61,7 +61,7 @@ namespace HDeMods {
 			});
 		}
 
-		private static void RecalcTOTALHeal(ILCursor c) {
+		private static void RecalcFinalHeal(ILCursor c) {
 			if (!c.TryGotoNext(
 				    x => x.MatchLdarg(1),
 				    x => x.MatchLdloc(4),
@@ -71,7 +71,7 @@ namespace HDeMods {
 				    // Inserting here
 				    x => x.MatchStloc(2)
 			    )) {
-				HCAPI.Log.Fatal("Failed to hook TOTAL Healing!");
+				HCAPI.Log.Fatal("Failed to hook Final Healing!");
 				return;
 			}
 			c.Index += 5;
@@ -81,7 +81,7 @@ namespace HDeMods {
 			c.Emit(OpCodes.Ldarg_1);
 		}
 
-		private static void RecalcTOTALRegenAccumulator(ILCursor c) {
+		private static void RecalcFinalRegenAccumulator(ILCursor c) {
 			if (!c.TryGotoNext(
 				    moveType: MoveType.After,
 				    x => x.MatchCallvirt<CharacterBody>("get_regen")
