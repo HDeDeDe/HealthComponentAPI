@@ -108,7 +108,7 @@ namespace HDeMods {
 		
 		private static event HealEventHandler _getHealStats;
 		
-		public delegate void TakeDamageEventHandler(HealthComponent sender, DamageInfo damageInfo, TakeDamageArgs args);
+		public delegate void TakeDamageEventHandler(HealthComponent sender, in DamageInfo damageInfo, TakeDamageArgs args);
 		
 		private static event TakeDamageEventHandler _getTakeDamageStats;
 		
