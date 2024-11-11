@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 
 namespace HDeMods {
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	public static partial class HealthComponentAPI {
 		private static void RecalcCoyoteTimer(ILCursor c) {
 			if (!c.TryGotoNext(
