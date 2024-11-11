@@ -9,7 +9,7 @@ namespace HDeMods {
     [SuppressMessage("ReSharper", "ConvertToConstant.Global")]
     public static partial class HealthComponentAPI {
         // Plugin details
-        public const string PluginGUID = "com." + PluginAuthor + "." + PluginName;
+        public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "HDeDeDe";
         public const string PluginName = "HealthComponentAPI";
         public const string PluginVersion = "1.0.0";
