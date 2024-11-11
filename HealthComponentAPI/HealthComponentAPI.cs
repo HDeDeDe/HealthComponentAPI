@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
+using UnityEngine;
 
 namespace HDeMods {
 	[SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -96,6 +97,20 @@ namespace HDeMods {
 		}
 		
 		public class TakeDamageArgs : EventArgs {
+			public bool rejectDamage = false;
+			public bool rejectForce = false;
+
+			public float adaptiveArmorBuildRateMultAdd = 0f;
+			public float adaptiveArmorBuildRateFlatAdd = 0f;
+			
+			public float adaptiveArmorMaxMultAdd = 0f;
+			public float adaptiveArmorMaxFlatAdd = 0f;
+
+			public float finalDamageAmountMultAdd = 0f;
+			public float finalDamageAmountFlatAdd = 0f;
+
+			public float damageForceMultAdd = 0f;
+			public Vector3 damageForceFlatAdd = Vector3.zero;
 			
 		}
 
@@ -223,7 +238,11 @@ namespace HDeMods {
 			c.Emit(OpCodes.Ldarg_1);
 			c.EmitDelegate<Action<HealthComponent, DamageInfo>>(GetTakeDamageMod);
 
-			
+			RecalcDamageForce(c);
+			RejectDamageCheck(c);
+			RecalcAdaptiveArmorBuildRate(c);
+			RecalcAdaptiveArmorMax(c);
+			RecalcFinalDamage(c);
 		}
 	}
 }

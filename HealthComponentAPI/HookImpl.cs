@@ -131,5 +131,95 @@ namespace HDeMods {
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((adaptiveArmorDecayRate) => 
 				adaptiveArmorDecayRate * (1 + HealthStats.adaptiveArmorDecayRateMultAdd) + HealthStats.adaptiveArmorDecayRateFlatAdd);
 		}
+		
+		private static void RecalcDamageForce(ILCursor c) {
+			if (!c.TryGotoNext(
+				    x => x.MatchLdfld<DamageInfo>("canRejectForce"),
+				    // Inserting here
+				    x => x.MatchBrtrue(out _)
+			    )) {
+				HCAPI.Log.Fatal("Failed to hook Reject Force!");
+				return;
+			}
+			c.Index += 1;
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<bool, bool>>(reject => {
+				if (TakeDamageStats.rejectForce) return false;
+				return reject;
+			});
+			c.Emit(OpCodes.Ldarg_1);
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Action<DamageInfo>>((dm) => {
+				if (TakeDamageStats.rejectForce) dm.canRejectForce = false;
+				dm.force *= 1 + TakeDamageStats.damageForceMultAdd;
+				dm.force += TakeDamageStats.damageForceFlatAdd;
+			});
+		}
+
+		private static void RejectDamageCheck(ILCursor c) {
+			if (!c.TryGotoNext(
+				    moveType: MoveType.Before,
+				    x => x.MatchLdfld<DamageInfo>("rejected"),
+				    x => x.MatchBrfalse(out _)
+			    )) {
+				HCAPI.Log.Fatal("Failed to hook Reject Damage!");
+				return;
+			}
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Action<DamageInfo>>((dm) => {
+				if (TakeDamageStats.rejectDamage) dm.rejected = true;
+			});
+			c.Emit(OpCodes.Ldarg_1);
+		}
+
+		private static void RecalcAdaptiveArmorBuildRate(ILCursor c) {
+			if (!c.TryGotoNext(
+				    x => x.MatchLdcR4(out _),
+				    // Inserting here
+				    x => x.MatchMul(),
+				    x => x.MatchLdarg(0),
+				    x => x.MatchLdflda<HealthComponent>("itemCounts")
+			    )) {
+				HCAPI.Log.Fatal("Failed to hook Adaptive Armor Build Rate!");
+				return;
+			}
+			c.Index += 1;
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>(adaptiveArmorBuildRate =>
+				adaptiveArmorBuildRate * (1 + TakeDamageStats.adaptiveArmorBuildRateMultAdd) +
+				TakeDamageStats.adaptiveArmorBuildRateFlatAdd);
+		}
+		
+		private static void RecalcAdaptiveArmorMax(ILCursor c) {
+			if (!c.TryGotoNext(
+				    moveType: MoveType.After,
+				    x => x.MatchLdfld<HealthComponent>("adaptiveArmorValue"),
+				    x => x.MatchLdloc(51),
+				    x => x.MatchAdd(),
+				    x => x.MatchLdcR4(out _)
+			    )) {
+				HCAPI.Log.Fatal("Failed to hook Adaptive Armor Max Value!");
+				return;
+			}
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>(adaptiveArmorMaxValue =>
+				adaptiveArmorMaxValue * (1 + TakeDamageStats.adaptiveArmorMaxMultAdd) +
+				TakeDamageStats.adaptiveArmorMaxFlatAdd);
+		}
+		
+		private static void RecalcFinalDamage(ILCursor c) {
+			if (!c.TryGotoNext(
+				    moveType: MoveType.Before,
+				    x => x.MatchLdfld<DamageInfo>("canRejectForce"),
+				    x => x.MatchBrtrue(out _)
+			    )) {
+				HCAPI.Log.Fatal("Failed to hook Final Damage!");
+				return;
+			}
+			c.Emit(OpCodes.Ldloc, 7);
+			c.Emit(OpCodes.Ldarg_1);
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, DamageInfo, float>>((damageToDeal, dm) => {
+				dm.damage = dm.damage * (1 + TakeDamageStats.finalDamageAmountMultAdd) +
+				            TakeDamageStats.finalDamageAmountFlatAdd;
+				return damageToDeal * (1 + TakeDamageStats.finalDamageAmountMultAdd) +
+				       TakeDamageStats.finalDamageAmountFlatAdd;
+			});
+			c.Emit(OpCodes.Stloc, 7);
+		}
 	}
 }
