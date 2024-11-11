@@ -9,6 +9,7 @@ namespace HDeMods {
 		private void OnDestroy() {
 			HealthComponentAPI.UnsetHealthHook();
 			HealthComponentAPI.UnsetHealHooks();
+			HealthComponentAPI.UnsetTakeDamageHooks();
 		}
 	}
 }

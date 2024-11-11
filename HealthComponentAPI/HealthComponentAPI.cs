@@ -17,9 +17,12 @@ namespace HDeMods {
 
 		private static UpdateHealthEventArgs HealthStats;
 		private static HealEventArgs HealStats;
+		private static TakeDamageArgs TakeDamageStats;
 
 		private static bool _healthHookSet = false;
 		private static bool _healHooksSet = false;
+		private static bool _takeDamageHooksSet = false;
+		
 		internal static void SetHealthHook()	{
 			if (_healthHookSet) return;
 
@@ -38,16 +41,30 @@ namespace HDeMods {
 			if (_healHooksSet) return;
 
 			IL.RoR2.HealthComponent.Heal += HealthComponent_Heal;
-			IL.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamageProcess;
+			IL.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamageProcess_Heal;
 
 			_healHooksSet = true;
 		}
 		
 		internal static void UnsetHealHooks() {
 			IL.RoR2.HealthComponent.Heal -= HealthComponent_Heal;
-			IL.RoR2.HealthComponent.TakeDamageProcess -= HealthComponent_TakeDamageProcess;
+			IL.RoR2.HealthComponent.TakeDamageProcess -= HealthComponent_TakeDamageProcess_Heal;
 
 			_healHooksSet = false;
+		}
+		
+		internal static void SetTakeDamageHooks() {
+			if (_takeDamageHooksSet) return;
+            
+			IL.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamageProcess;
+
+			_takeDamageHooksSet = true;
+		}
+		
+		internal static void UnsetTakeDamageHooks() {
+			IL.RoR2.HealthComponent.TakeDamageProcess -= HealthComponent_TakeDamageProcess;
+
+			_takeDamageHooksSet = false;
 		}
 		
 		public class UpdateHealthEventArgs : EventArgs {
@@ -77,6 +94,10 @@ namespace HDeMods {
 			public float TOTALhealAmountMultAdd = 0f;
 			public float TOTALhealAmountFlatAdd = 0f;
 		}
+		
+		public class TakeDamageArgs : EventArgs {
+			
+		}
 
 
 		public delegate void UpdateHealthEventHandler(HealthComponent sender, UpdateHealthEventArgs args);
@@ -86,6 +107,10 @@ namespace HDeMods {
 		public delegate void HealEventHandler(HealthComponent sender, HealEventArgs args);
 		
 		private static event HealEventHandler _getHealStats;
+		
+		public delegate void TakeDamageEventHandler(HealthComponent sender, DamageInfo damageInfo, TakeDamageArgs args);
+		
+		private static event TakeDamageEventHandler _getTakeDamageStats;
 		
 		public static event UpdateHealthEventHandler GetHealthStats {
 			add {
@@ -108,6 +133,17 @@ namespace HDeMods {
 				if(_getHealStats == null || _getHealStats.GetInvocationList()?.Length == 0) UnsetHealHooks();
 			}
 		}
+		
+		public static event TakeDamageEventHandler GetTakeDamageStats {
+			add {
+				SetTakeDamageHooks();
+				_getTakeDamageStats += value;
+			}
+			remove {
+				_getTakeDamageStats -= value;
+				if(_getTakeDamageStats == null || _getTakeDamageStats.GetInvocationList()?.Length == 0) UnsetTakeDamageHooks();
+			}
+		}
 
 		private static void GetHealthMod(HealthComponent hc) {
 			HealthStats = new UpdateHealthEventArgs();
@@ -118,7 +154,7 @@ namespace HDeMods {
 					@event(hc, HealthStats);
 				}
 				catch (Exception e) {
-					Log.Error($"Exception thrown by : {@event.Method.DeclaringType.Name}.{@event.Method.Name}:\n{e}");
+					Log.Error($"Exception thrown by : {@event.Method.DeclaringType?.Name}.{@event.Method.Name}:\n{e}");
 				}
 			}
 		}
@@ -132,7 +168,21 @@ namespace HDeMods {
 					@event(hc, HealStats);
 				}
 				catch (Exception e) {
-					Log.Error($"Exception thrown by : {@event.Method.DeclaringType.Name}.{@event.Method.Name}:\n{e}");
+					Log.Error($"Exception thrown by : {@event.Method.DeclaringType?.Name}.{@event.Method.Name}:\n{e}");
+				}
+			}
+		}
+		
+		private static void GetTakeDamageMod(HealthComponent hc, DamageInfo dm) {
+			TakeDamageStats = new TakeDamageArgs();
+
+			if (_getTakeDamageStats == null) return;
+			foreach (TakeDamageEventHandler @event in _getTakeDamageStats.GetInvocationList()) {
+				try {
+					@event(hc, dm, TakeDamageStats);
+				}
+				catch (Exception e) {
+					Log.Error($"Exception thrown by : {@event.Method.DeclaringType?.Name}.{@event.Method.Name}:\n{e}");
 				}
 			}
 		}
@@ -159,12 +209,21 @@ namespace HDeMods {
 			RecalcTOTALHeal(c);
 		}
 		
-		private static void HealthComponent_TakeDamageProcess(ILContext il) {
+		private static void HealthComponent_TakeDamageProcess_Heal(ILContext il) {
 			ILCursor c = new ILCursor(il);
 			c.Emit(OpCodes.Ldarg_0);
 			c.EmitDelegate<Action<HealthComponent>>(GetHealMod);
 
 			RecalcCoyoteTimer(c);
+		}
+		
+		private static void HealthComponent_TakeDamageProcess(ILContext il) {
+			ILCursor c = new ILCursor(il);
+			c.Emit(OpCodes.Ldarg_0);
+			c.Emit(OpCodes.Ldarg_1);
+			c.EmitDelegate<Action<HealthComponent, DamageInfo>>(GetTakeDamageMod);
+
+			
 		}
 	}
 }
