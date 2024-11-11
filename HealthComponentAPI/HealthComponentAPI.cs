@@ -154,7 +154,7 @@ namespace HDeMods {
 					@event(hc, HealthStats);
 				}
 				catch (Exception e) {
-					Log.Error($"Exception thrown by : {@event.Method.DeclaringType?.Name}.{@event.Method.Name}:\n{e}");
+					HCAPI.Log.Error($"Exception thrown by : {@event.Method.DeclaringType?.Name}.{@event.Method.Name}:\n{e}");
 				}
 			}
 		}
@@ -168,7 +168,7 @@ namespace HDeMods {
 					@event(hc, HealStats);
 				}
 				catch (Exception e) {
-					Log.Error($"Exception thrown by : {@event.Method.DeclaringType?.Name}.{@event.Method.Name}:\n{e}");
+					HCAPI.Log.Error($"Exception thrown by : {@event.Method.DeclaringType?.Name}.{@event.Method.Name}:\n{e}");
 				}
 			}
 		}
@@ -182,7 +182,7 @@ namespace HDeMods {
 					@event(hc, dm, TakeDamageStats);
 				}
 				catch (Exception e) {
-					Log.Error($"Exception thrown by : {@event.Method.DeclaringType?.Name}.{@event.Method.Name}:\n{e}");
+					HCAPI.Log.Error($"Exception thrown by : {@event.Method.DeclaringType?.Name}.{@event.Method.Name}:\n{e}");
 				}
 			}
 		}
