@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 
 namespace HDeMods {
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
+	[SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global")]
+	[SuppressMessage("ReSharper", "ConvertToConstant.Global")]
 	public static partial class HealthComponentAPI {
 		// Plugin details
 		public const string PluginGUID = PluginAuthor + "." + PluginName;
