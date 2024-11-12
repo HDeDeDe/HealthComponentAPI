@@ -12,6 +12,7 @@ namespace HDeMods {
                 x => x.MatchStfld<HealthComponent>("recentlyTookDamageCoyoteTimer")
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Coyote Timer!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((damageCoyoteTimer) => 
@@ -28,6 +29,7 @@ namespace HDeMods {
 				    x => x.MatchMul()
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Crit Heal!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.Index += 4;
@@ -46,6 +48,7 @@ namespace HDeMods {
 				});
 			} else {
 				HCAPI.Log.Error("Failed to hook teamIndex! Attempting healing hook.");
+				HCAPI.Log.Error(c.Context);
 			}
 			
 			if (!c.TryGotoNext(
@@ -53,6 +56,7 @@ namespace HDeMods {
 				    x => x.MatchCallvirt<Run>("get_selectedDifficulty")
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Eclipse 5 healing!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<int, int>>(difficulty => {
@@ -72,6 +76,7 @@ namespace HDeMods {
 				    x => x.MatchStloc(2)
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Final Healing!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.Index += 5;
@@ -87,6 +92,7 @@ namespace HDeMods {
 				    x => x.MatchCallvirt<CharacterBody>("get_regen")
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Regen Accumulator!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((regen) => 
@@ -99,6 +105,7 @@ namespace HDeMods {
 				    x => x.MatchCallvirt<CharacterBody>("get_barrierDecayRate")
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Barrier Decay Rate!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.Emit(OpCodes.Ldarg_0);
@@ -113,6 +120,7 @@ namespace HDeMods {
 				    x => x.MatchLdcR4(out _)
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Shield Recharge Rate!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((shieldRechargeRate) => 
@@ -126,6 +134,7 @@ namespace HDeMods {
 				    x => x.MatchLdcR4(out _)
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Adaptive Armor Decay Rate!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((adaptiveArmorDecayRate) => 
@@ -139,6 +148,7 @@ namespace HDeMods {
 				    x => x.MatchBrtrue(out _)
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Reject Force!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.Index += 1;
@@ -161,6 +171,7 @@ namespace HDeMods {
 				    x => x.MatchBrfalse(out _)
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Reject Damage!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Action<DamageInfo>>((dm) => {
@@ -178,6 +189,7 @@ namespace HDeMods {
 				    x => x.MatchLdflda<HealthComponent>("itemCounts")
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Adaptive Armor Build Rate!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.Index += 1;
@@ -195,6 +207,7 @@ namespace HDeMods {
 				    x => x.MatchLdcR4(out _)
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Adaptive Armor Max Value!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>(adaptiveArmorMaxValue =>
@@ -206,9 +219,10 @@ namespace HDeMods {
 			if (!c.TryGotoNext(
 				    moveType: MoveType.Before,
 				    x => x.MatchLdfld<DamageInfo>("canRejectForce"),
-				    x => x.MatchBrtrue(out _)
+				    x => x.MatchBrfalse(out _)
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Final Damage!");
+				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
 			c.Emit(OpCodes.Ldloc, 7);
