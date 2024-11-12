@@ -4,7 +4,7 @@
 
 [![Thunderstore Version](https://img.shields.io/thunderstore/v/HDeDeDe/HealthComponentAPI?style=for-the-badge&logo=thunderstore&color=blue)](https://thunderstore.io/package/HDeDeDe/HealthComponentAPI/)
 [![GitHub last commit](https://img.shields.io/github/last-commit/HDeDeDe/HealthComponentAPI?style=for-the-badge&logo=github)](https://github.com/HDeDeDe/HealthComponentAPI)
-
+[![NuGet Version](https://img.shields.io/nuget/v/HDeDeDe.Mods.RiskOfRain2.HealthComponentAPI?style=for-the-badge&logo=nuget)](https://www.nuget.org/packages/HDeDeDe.Mods.RiskOfRain2.HealthComponentAPI)
 
 
 
