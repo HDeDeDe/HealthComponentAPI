@@ -5,6 +5,15 @@
         <LangVersion>preview</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <RootNamespace>HDeMods</RootNamespace>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>com.HDeDeDe.RoR2Mods.HealthComponentAPI</PackageId>
+        <Title>HealthComponentAPI</Title>
+        <Authors>HDeDeDe</Authors>
+        <Description>is api for healthcomponent. designed to be like RecalculateStatsAPI.</Description>
+        <PackageProjectUrl>https://thunderstore.io/package/HDeDeDe/HealthComponentAPI/</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/HDeDeDe/HealthComponentAPI</RepositoryUrl>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -23,6 +32,11 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <None Include="../README.md" pack="true" PackagePath="." />
     </ItemGroup>
 
 </Project>
