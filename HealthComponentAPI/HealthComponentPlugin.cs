@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using BepInEx;
 using BepInEx.Logging;
 using RoR2;
@@ -7,14 +8,14 @@ namespace HDeMods {
 	public sealed class HealthComponentAPIPlugin : BaseUnityPlugin {
 #if DEBUG
 #pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
-		private static bool makeEmImortal;
+		private static bool makeEmImmortal; //Immortal
 #pragma warning restore CS0649 // Field is never assigned to, and will always have its default value
 #endif
 		
 		private void Awake() {
 			HCAPI.Log.Init(Logger);
 #if DEBUG
-			HealthComponentAPI.GetTakeDamageStats += MakeEveryoneImortalLol;
+			HealthComponentAPI.GetTakeDamageStats += MakeEveryoneImmortalLol;
 #endif
 		}
 
@@ -24,9 +25,9 @@ namespace HDeMods {
 			HealthComponentAPI.UnsetTakeDamageHooks();
 		}
 #if DEBUG
-		private void MakeEveryoneImortalLol(HealthComponent sender, in DamageInfo damageInfo,
+		private static void MakeEveryoneImmortalLol(HealthComponent sender, in DamageInfo damageInfo,
 			HealthComponentAPI.TakeDamageArgs args) {
-			if (makeEmImortal) args.rejectDamage = true;
+			if (makeEmImmortal) args.rejectDamage = true;
 		}
 #endif
 	}
@@ -34,6 +35,7 @@ namespace HDeMods {
 	namespace HCAPI {
 		internal static class Log
 		{
+			[SuppressMessage("ReSharper", "InconsistentNaming")] 
 			private static ManualLogSource m_logSource;
 
 			internal static void Init(ManualLogSource logSource) => m_logSource = logSource;
