@@ -44,7 +44,7 @@ namespace HDeMods {
 			    )) {
 				c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<sbyte, sbyte>>(teamIndex => {
 					if (!HealStats.enableEclipseHealReduction) return teamIndex;
-					return (sbyte)RefVal.plr;
+					return (sbyte)HcRefVal.plr;
 				});
 			} else {
 				HCAPI.Log.Error("Failed to hook teamIndex! Attempting healing hook.");
@@ -61,7 +61,7 @@ namespace HDeMods {
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<int, int>>(difficulty => {
 				if (!HealStats.enableEclipseHealReduction) return difficulty;
-				return (int)RefVal.e5;
+				return (int)HcRefVal.e5;
 			});
 		}
 
