@@ -22,15 +22,19 @@ namespace HDeMods {
         
         public class UpdateHealthEventArgs : EventArgs {
             public float finalRegenMultAdd = 0f;
+            //public float finalRegenDivAdd = 0f;
             public float finalRegenFlatAdd = 0f;
 
             public float barrierDecayRateMultAdd = 0f;
+            //public float barrierDecayRateDivAdd = 0f;
             public float barrierDecayRateFlatAdd = 0f;
 
             public float shieldRechargeRateMultAdd = 0f;
+            //public float shieldRechargeRateDivAdd = 0f;
             public float shieldRechargeRateFlatAdd = 0f;
 			
             public float adaptiveArmorDecayRateMultAdd = 0f;
+            //public float adaptiveArmorDecayRateDivAdd = 0f;
             public float adaptiveArmorDecayRateFlatAdd = 0f;
 
         }
@@ -39,12 +43,15 @@ namespace HDeMods {
             public bool enableEclipseHealReduction = false;
 
             public float damageCoyoteTimerMultAdd = 0f;
+            //public float damageCoyoteTimerDivAdd = 0f;
             public float damageCoyoteTimerFlatAdd = 0f;
 
             public float critHealMultAdd = 0f;
+            //public float critHealDivAdd = 0f;
             public float critHealFlatAdd = 0f;
 
             public float finalHealAmountMultAdd = 0f;
+            //public float finalHealAmountDivAdd = 0f;
             public float finalHealAmountFlatAdd = 0f;
         }
         
@@ -53,17 +60,20 @@ namespace HDeMods {
             public bool rejectForce = false;
 
             public float adaptiveArmorBuildRateMultAdd = 0f;
+            //public float adaptiveArmorBuildRateDivAdd = 0f;
             public float adaptiveArmorBuildRateFlatAdd = 0f;
 			
             public float adaptiveArmorMaxMultAdd = 0f;
+            //public float adaptiveArmorMaxDivAdd = 0f;
             public float adaptiveArmorMaxFlatAdd = 0f;
 
             public float finalDamageAmountMultAdd = 0f;
+            //public float finalDamageAmountDivAdd = 0f;
             public float finalDamageAmountFlatAdd = 0f;
 
             public float damageForceMultAdd = 0f;
+            //public float damageForceDivAdd = 0f;
             public Vector3 damageForceFlatAdd = Vector3.zero;
-			
         }
         
         public static event UpdateHealthEventHandler GetHealthStats {

@@ -1,3 +1,5 @@
+### 1.1.0
+- Fixed Barrier Decay Rate being the divisor of maxBarrier
 ### 1.0.0
 - Eclipse health reduction now applies regardless of team
 - Added TakeDamageProcess hook
