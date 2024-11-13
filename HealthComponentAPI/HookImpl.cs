@@ -101,16 +101,15 @@ namespace HDeMods {
 		
 		private static void RecalcBarrierDecayRate(ILCursor c) {
 			if (!c.TryGotoNext(
-				    moveType: MoveType.After,
+			        moveType: MoveType.After,
 				    x => x.MatchCallvirt<CharacterBody>("get_barrierDecayRate")
 			    )) {
 				HCAPI.Log.Fatal("Failed to hook Barrier Decay Rate!");
 				HCAPI.Log.Fatal(c.Context);
 				return;
 			}
-			c.Emit(OpCodes.Ldarg_0);
-			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, HealthComponent, float>>((barrierDecayRate, hc) => 
-				hc.body.maxBarrier / (barrierDecayRate * (1f + HealthStats.barrierDecayRateMultAdd) + HealthStats.barrierDecayRateFlatAdd));
+			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>(barrierDecayRate => 
+				barrierDecayRate * (1f + HealthStats.barrierDecayRateMultAdd) + HealthStats.barrierDecayRateFlatAdd);
 		}
 
 		private static void RecalcShieldRechargeRate(ILCursor c) {
