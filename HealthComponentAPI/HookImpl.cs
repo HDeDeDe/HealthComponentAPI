@@ -17,7 +17,6 @@ namespace HDeMods {
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((damageCoyoteTimer) =>
 				damageCoyoteTimer * (1f + HealStats.damageCoyoteTimerMultAdd) 
-				// / (1f + HealStats.damageCoyoteTimerDivAdd) 
 				+ HealStats.damageCoyoteTimerFlatAdd);
 		}
 
@@ -37,7 +36,6 @@ namespace HDeMods {
 			c.Index += 4;
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((critHealMultiplier) => 
 				critHealMultiplier * (1f + HealStats.critHealMultAdd) 
-				// / (1f + HealStats.critHealDivAdd)
 				+ HealStats.critHealFlatAdd);
 		}
 
@@ -86,7 +84,6 @@ namespace HDeMods {
 			c.Index += 5;
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>(finalHeal => 
 				finalHeal * (1f + HealStats.finalHealAmountMultAdd) 
-				// / (1f + HealStats.finalHealAmountDivAdd)
 				+ HealStats.finalHealAmountFlatAdd);
 			c.Emit(OpCodes.Starg, 1);
 			c.Emit(OpCodes.Ldarg_1);
@@ -103,7 +100,6 @@ namespace HDeMods {
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>(regen => 
 				regen * (1f + HealthStats.finalRegenMultAdd) 
-				// / (1f + HealthStats.finalRegenDivAdd)
 				+ HealthStats.finalRegenFlatAdd);
 		}
 		
@@ -118,7 +114,6 @@ namespace HDeMods {
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>(barrierDecayRate => 
 				barrierDecayRate * (1f + HealthStats.barrierDecayRateMultAdd) 
-				// / (1f + HealthStats.barrierDecayRateDivAdd)
 				+ HealthStats.barrierDecayRateFlatAdd);
 		}
 
@@ -134,7 +129,6 @@ namespace HDeMods {
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>(shieldRechargeRate => 
 				shieldRechargeRate * (1f + HealthStats.shieldRechargeRateMultAdd) 
-                // / (1f + HealthStats.shieldRechargeRateDivAdd)
 				+ HealthStats.shieldRechargeRateFlatAdd);
 		}
 
@@ -150,7 +144,6 @@ namespace HDeMods {
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>((adaptiveArmorDecayRate) => 
 				adaptiveArmorDecayRate * (1f + HealthStats.adaptiveArmorDecayRateMultAdd) 
-				// / (1f + HealthStats.adaptiveArmorDecayRateDivAdd)
 				+ HealthStats.adaptiveArmorDecayRateFlatAdd);
 		}
 		
@@ -173,7 +166,6 @@ namespace HDeMods {
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Action<DamageInfo>>((dm) => {
 				if (TakeDamageStats.rejectForce) dm.canRejectForce = false;
 				dm.force *= 1f + TakeDamageStats.damageForceMultAdd;
-				//dm.force /= 1f + TakeDamageStats.damageForceDivAdd;
 				dm.force += TakeDamageStats.damageForceFlatAdd;
 			});
 		}
@@ -209,7 +201,6 @@ namespace HDeMods {
 			c.Index += 1;
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>(adaptiveArmorBuildRate =>
 				adaptiveArmorBuildRate * (1 + TakeDamageStats.adaptiveArmorBuildRateMultAdd) 
-				// / (1 + TakeDamageStats.adaptiveArmorBuildRateDivAdd) 
 				+ TakeDamageStats.adaptiveArmorBuildRateFlatAdd);
 		}
 		
@@ -227,7 +218,6 @@ namespace HDeMods {
 			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>(adaptiveArmorMaxValue =>
 				adaptiveArmorMaxValue * (1 + TakeDamageStats.adaptiveArmorMaxMultAdd) 
-				// / (1 + TakeDamageStats.adaptiveArmorMaxDivAdd)
 				+ TakeDamageStats.adaptiveArmorMaxFlatAdd);
 		}
 		
@@ -245,10 +235,8 @@ namespace HDeMods {
 			c.Emit(OpCodes.Ldarg_1);
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, DamageInfo, float>>((damageToDeal, dm) => {
 				dm.damage = dm.damage * (1 + TakeDamageStats.finalDamageAmountMultAdd) 
-				            // / (1 + TakeDamageStats.finalDamageAmountDivAdd)
 				            + TakeDamageStats.finalDamageAmountFlatAdd;
 				return damageToDeal * (1 + TakeDamageStats.finalDamageAmountMultAdd) 
-				       // / (1 + TakeDamageStats.finalDamageAmountDivAdd)
 				       + TakeDamageStats.finalDamageAmountFlatAdd;
 			});
 			c.Emit(OpCodes.Stloc, 7);
