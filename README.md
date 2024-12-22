@@ -25,7 +25,7 @@ using HDeMods;
 And that's it. All you have to do is reference the section below and use it as if it were RecalculateStatsAPI.
 
 ### How it works
-There are 3 Events you can subscribe to, `HDeMods.HealthComponentAPI.GetHealthStats`, `HDeMods.HealthComponentAPI.GetHealStats` and `HDeMods.HealthComponentAPI.GetTakeDamageStats`.
+There are 5 Events you can subscribe to, `HDeMods.HealthComponentAPI.GetHealthStats`, `HDeMods.HealthComponentAPI.GetHealStats`, `HDeMods.HealthComponentAPI.GetTakeDamageStats`, `HDeMods.HealthComponentAPI.OnTakeDamageProcess` and `HDeMods.HealthComponentAPI.OnHealServerProcess`.
 
 `GetHealthStats` fires every fixed update on the server and provides the following values to change:
 - Final Regen: Regen value after all regen related calculations but before it's applied as healing.
@@ -65,10 +65,25 @@ HDeMods.HealthComponentAPI.GetTakeDamageStats += MyDelegate;
 MyDelegate(HealthComponent sender, DamageInfo damageInfo, TakeDamageArgs args)
 ```
 
+`OnTakeDamageProcess` is an On hook for the TakeDamage function. It provides access to all values passed before the function is called internally. It is instated like so:
+
+```c#
+HDeMods.HealthComponentAPI.OnTakeDamageProcess += MyDelegate;
+
+MyDelegate(HealthComponent self, DamageInfo damageInfo);
+```
+
+`OnHealServerProcess` is an On hook for the Heal function. It provides access to all values passed before the function is called internally. It is instated like so:
+
+```c#
+HDeMods.HealthComponentAPI.OnHealServerProcess += MyDelegate;
+
+float MyDelegate(HealthComponent self, float amount, ProcChainMask procChainMask, bool nonRegen = true);
+```
+
+
 That's it.
 
-## Plans for the future
-- Might add an actual OnHeal event that lets you modify the value before any other values apply to it, who knows.
 
 ## Feedback
 Any and all feedback is appreciated, if you want to let me know anything please feel free to open an issue on the [GitHub Page](https://github.com/HDeDeDe/HealthComponentAPI) or @ me on the modding discord (hdedede).

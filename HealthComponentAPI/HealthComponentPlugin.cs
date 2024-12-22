@@ -14,6 +14,7 @@ namespace HDeMods {
 		
 		private void Awake() {
 			HCAPI.Log.Init(Logger);
+			HealthComponentAPI.AddOnHooks();
 #if DEBUG
 			HealthComponentAPI.GetTakeDamageStats += MakeEveryoneImmortalLol;
 #endif
@@ -23,6 +24,7 @@ namespace HDeMods {
 			HealthComponentAPI.UnsetHealthHook();
 			HealthComponentAPI.UnsetHealHooks();
 			HealthComponentAPI.UnsetTakeDamageHooks();
+			HealthComponentAPI.RemoveOnHooks();
 		}
 #if DEBUG
 		private static void MakeEveryoneImmortalLol(HealthComponent sender, in DamageInfo damageInfo,

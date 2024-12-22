@@ -1,3 +1,5 @@
+### 1.2.0
+- Added events to automate OnHooks for `HealthComponent.TakeDamageProcess` and `HealthComponent.Heal`
 ### 1.1.0
 - Fixed Barrier Decay Rate being the divisor of maxBarrier
 ### 1.0.0

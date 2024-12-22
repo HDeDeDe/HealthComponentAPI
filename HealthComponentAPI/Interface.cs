@@ -12,13 +12,16 @@ namespace HDeMods {
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "HDeDeDe";
         public const string PluginName = "HealthComponentAPI";
-        public const string PluginVersion = "1.1.0";
+        public const string PluginVersion = "1.2.0";
         
         public delegate void UpdateHealthEventHandler(HealthComponent sender, UpdateHealthEventArgs args);
         
         public delegate void HealEventHandler(HealthComponent sender, HealEventArgs args);
         
         public delegate void TakeDamageEventHandler(HealthComponent sender, in DamageInfo damageInfo, TakeDamageArgs args);
+
+        public static event Action<HealthComponent, DamageInfo> OnTakeDamageProcess;
+        public static event Func<HealthComponent, float, ProcChainMask, bool, float> OnHealServerProcess; 
         
         public class UpdateHealthEventArgs : EventArgs {
             public float finalRegenMultAdd = 0f;

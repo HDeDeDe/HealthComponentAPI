@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
+using UnityEngine.Networking;
 
 namespace HDeMods {
 	[SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -148,6 +149,32 @@ namespace HDeMods {
 			RecalcAdaptiveArmorBuildRate(c);
 			RecalcAdaptiveArmorMax(c);
 			RecalcFinalDamage(c);
+		}
+
+		internal static void AddOnHooks() {
+			On.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamageProcess;
+			On.RoR2.HealthComponent.Heal += HealthComponent_Heal;
+		}
+		
+		internal static void RemoveOnHooks() {
+			On.RoR2.HealthComponent.TakeDamageProcess -= HealthComponent_TakeDamageProcess;
+			On.RoR2.HealthComponent.Heal -= HealthComponent_Heal;
+		}
+
+		private static float HealthComponent_Heal(On.RoR2.HealthComponent.orig_Heal orig, HealthComponent self, 
+			float amount, ProcChainMask procChainMask, bool nonRegen = true) {
+			if (!NetworkServer.active) {
+				UnityEngine.Debug.LogWarning("[Server] function 'System.Single RoR2.HealthComponent::Heal(System.Single, RoR2.ProcChainMask, System.Boolean)' called on client");
+				return 0f;
+			}
+			OnHealServerProcess?.Invoke(self, amount, procChainMask, nonRegen);
+			return orig(self, amount, procChainMask, nonRegen);
+		}
+
+		private static void HealthComponent_TakeDamageProcess(On.RoR2.HealthComponent.orig_TakeDamageProcess orig, 
+			HealthComponent self, DamageInfo damageInfo) {
+			OnTakeDamageProcess?.Invoke(self, damageInfo);
+			orig(self, damageInfo);
 		}
 	}
 }
