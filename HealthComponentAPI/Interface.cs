@@ -12,7 +12,7 @@ namespace HDeMods {
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "HDeDeDe";
         public const string PluginName = "HealthComponentAPI";
-        public const string PluginVersion = "1.2.0";
+        public const string PluginVersion = "1.2.1";
         
         public delegate void UpdateHealthEventHandler(HealthComponent sender, UpdateHealthEventArgs args);
         
