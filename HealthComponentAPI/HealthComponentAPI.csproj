@@ -12,12 +12,12 @@
         <Description>is api for healthcomponent. designed to be like RecalculateStatsAPI.</Description>
         <PackageProjectUrl>https://thunderstore.io/package/HDeDeDe/HealthComponentAPI/</PackageProjectUrl>
         <RepositoryUrl>https://github.com/HDeDeDe/HealthComponentAPI</RepositoryUrl>
-        <AssemblyVersion>1.2.0</AssemblyVersion>
+        <AssemblyVersion>1.2.1</AssemblyVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Copyright>Copyright (c) HDeDeDe/Ethan 2024</Copyright>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <RepositoryType>git</RepositoryType>
-        <Version>1.2.0</Version>
+        <Version>1.2.1</Version>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
