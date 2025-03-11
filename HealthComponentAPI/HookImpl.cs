@@ -68,20 +68,31 @@ namespace HDeMods {
 		}
 
 		private static void RecalcFinalHeal(ILCursor c) {
-			if (!c.TryGotoNext(
-				    x => x.MatchLdarg(1),
-				    x => x.MatchLdloc(4),
-				    x => x.MatchMul(),
-				    x => x.MatchStarg(1),
-				    x => x.MatchLdarg(1),
-				    // Inserting here
-				    x => x.MatchStloc(2)
-			    )) {
-				HCAPI.Log.Fatal("Failed to hook Final Healing!");
-				HCAPI.Log.Fatal(c.Context);
-				return;
+			if (OptionalMods.MoreStats.enabled) {
+				if (!c.TryGotoNext(
+					    moveType: MoveType.After,
+					    x => x.MatchLdarg(1),
+					    x => x.MatchLdarg(0),
+					    x => x.MatchLdcI4(out _)
+				    )) {
+					HCAPI.Log.Fatal("Failed to hook Final Healing with MoreStats!");
+					HCAPI.Log.Fatal(c.Context);
+					return;
+				}
+				c.Index += 2;
 			}
-			c.Index += 5;
+			else {
+				if (!c.TryGotoNext(
+					    x => x.MatchLdarg(1),
+					    // Inserting here
+					    x => x.MatchStloc(2)
+				    )) {
+					HCAPI.Log.Fatal("Failed to hook Final Healing!");
+					HCAPI.Log.Fatal(c.Context);
+					return;
+				}
+				c.Index += 1;
+			}
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>(finalHeal => 
 				finalHeal * (1f + HealStats.finalHealAmountMultAdd) 
 				+ HealStats.finalHealAmountFlatAdd);
@@ -208,7 +219,7 @@ namespace HDeMods {
 			if (!c.TryGotoNext(
 				    moveType: MoveType.After,
 				    x => x.MatchLdfld<HealthComponent>("adaptiveArmorValue"),
-				    x => x.MatchLdloc(51),
+				    x => x.MatchLdloc(out _),
 				    x => x.MatchAdd(),
 				    x => x.MatchLdcR4(out _)
 			    )) {
