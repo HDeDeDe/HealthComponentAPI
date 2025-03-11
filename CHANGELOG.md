@@ -1,3 +1,6 @@
+### 1.2.1
+- Updated for SotS 2.0 part 2
+- Fixed compatability with MoreStats
 ### 1.2.0
 - Added events to automate OnHooks for `HealthComponent.TakeDamageProcess` and `HealthComponent.Heal`
 ### 1.1.0
